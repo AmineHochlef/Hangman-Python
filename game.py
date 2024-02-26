@@ -3,9 +3,13 @@ import os
 
 # Setup display
 pygame.init()
-WIDTH, HEIGHT = 800, 500
+WIDTH, HEIGHT = 1000, 700
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hangman - Game")
+
+# Fonts
+BANGERS_FONT_PATH = os.path.join(os.path.dirname(__file__), "Bangers-Regular.ttf")
+LETTER_FONT = pygame.font.Font(BANGERS_FONT_PATH, 40)
 
 # load images
 images = []
@@ -15,15 +19,16 @@ for i in range(7):
     images.append(image)
 
 # button variables
-RADIUS = 20
+RADIUS = 30
 GAP = 15
 letters = []
 startx = round((WIDTH - (RADIUS * 2 + GAP) * 13) / 2)
-starty = 400
+starty = 520
+A = 65
 for i in range(26):
     x = startx + GAP * 2 + (RADIUS * 2 + GAP) * (i % 13)
     y = starty + ((i // 13) * (GAP + RADIUS * 2))
-    letters.append([x, y])
+    letters.append([x, y, chr(A + i)])
 
 # Game variables
 hangman_status = 4
@@ -41,8 +46,12 @@ def draw():
     win.fill(WHITE)
     # draw buttons
     for letter in letters:
-        x, y = letter
+        x, y, ltr = letter
         pygame.draw.circle(win, BLACK, (x, y), RADIUS, 3)
+        text = LETTER_FONT.render(ltr, 1, BLACK)
+        win.blit(text, (x - text.get_width() / 2 , y - text.get_height() / 2))
+        
+        
     win.blit(images[hangman_status], (150, 100))
     pygame.display.update()
 
