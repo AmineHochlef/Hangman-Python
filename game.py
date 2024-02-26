@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 
 # Setup display
 pygame.init()
@@ -64,7 +65,11 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            print(pos)
+            m_x, m_y = pygame.mouse.get_pos()
+            for letter in letters:
+                x, y, ltr = letter
+                dis = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)
+                if dis < RADIUS:
+                    print(ltr)
 
 pygame.quit()
