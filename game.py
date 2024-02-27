@@ -11,6 +11,7 @@ pygame.display.set_caption("Hangman - Game")
 # Fonts
 BANGERS_FONT_PATH = os.path.join(os.path.dirname(__file__), "Bangers-Regular.ttf")
 LETTER_FONT = pygame.font.Font(BANGERS_FONT_PATH, 40)
+WORD_FONT = pygame.font.Font(BANGERS_FONT_PATH, 60)
 
 # load images
 images = []
@@ -33,6 +34,9 @@ for i in range(26):
 
 # Game variables
 hangman_status = 4
+word = "DEVELOPER"
+guessed = []
+
 
 # Colors
 WHITE = (255, 255, 255)
@@ -45,6 +49,16 @@ run = True
 
 def draw():
     win.fill(WHITE)
+    
+    # Draw Word
+    display_word = ""
+    for letter in word:
+        if letter in guessed:
+            display_word += letter + " "
+        else:
+            display_word += "_ "
+    text = WORD_FONT.render(display_word, 1, BLACK)
+    win.blit(text, (450,200))
     # draw buttons
     for letter in letters:
         x, y, ltr, visible = letter
